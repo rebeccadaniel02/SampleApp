@@ -10,4 +10,158 @@ h1 {
 p {
     color: black;
     font-size: 18px;
+
+    git program
+cd SampleWebApp
+git init
+git status
+
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+
+git add .
+git commit -m "Initial commit"
+
+git remote add origin https://github.com/YOUR_USERNAME/SampleWebApp.git
+git branch -M main
+git push -u origin main
+
+git status
+git diff
+
+git add .
+git commit -m "Updated homepage"
+git push
+
+git pull origin main
+
+git checkout -b feature-login
+git add .
+git commit -m "Added login button"
+git push -u origin feature-login
+
+git checkout main
+git pull origin main
+git merge feature-login
+git push
+
+git branch -d feature-login
+git push origin --delete feature-login
+
+
+---------------------------------------------------------------------------------------------------------------
+    program 3
+    Step 1: Create HTML page
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Docker Web Page</title>
+</head>
+<body>
+
+    <h1>Hello from Docker!</h1>
+    <p>This is a simple HTML webpage running inside a Docker container.</p>
+
+</body>
+</html>
+
+Step 2: 
+FROM nginx:latest
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+
+Step 3: 
+Build Docker
+docker build -t lab3 .
+
+Step 4:
+Run Container:
+docker run -d -p 8080:80 --name html-container lab3
+Open docker and click 8080 link
+
+Step 4:
+Check running containers
+docker ps
+Stop container
+docker stop html-container
+Start Container
+docker start html-container
+Remove the container:
+docker rm html-container
+Remove the image:
+docker rmi lab3
+----------------------------------------------------------------------------------------------------------------------
+    program 2
+
+
+    git bash
+    ------------
+    mkdir FastAPI_CRUD
+cd FastAPI_CRUD
+-------------------------
+
+    in vs
+    from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+
+# Data Model
+class Student(BaseModel):
+    id: int
+    name: str
+    department: str
+
+# In-memory database
+students = []
+
+# Home API
+@app.get("/")
+def home():
+    return {"message": "Welcome to Student Microservice"}
+
+# CREATE
+@app.post("/students")
+def add_student(student: Student):
+    students.append(student)
+    return {"message": "Student Added Successfully"}
+
+# READ ALL
+@app.get("/students")
+def get_students():
+    return students
+
+# READ BY ID
+@app.get("/students/{student_id}")
+def get_student(student_id: int):
+    for student in students:
+        if student.id == student_id:
+            return student
+    raise HTTPException(status_code=404, detail="Student Not Found")
+
+# UPDATE
+@app.put("/students/{student_id}")
+def update_student(student_id: int, updated_student: Student):
+    for index, student in enumerate(students):
+        if student.id == student_id:
+            students[index] = updated_student
+            return {"message": "Student Updated Successfully"}
+    raise HTTPException(status_code=404, detail="Student Not Found")
+
+# DELETE
+@app.delete("/students/{student_id}")
+def delete_student(student_id: int):
+    for student in students:
+        if student.id == student_id:
+            students.remove(student)
+            return {"message": "Student Deleted Successfully"}
+    raise HTTPException(status_code=404, detail="Student Not Found")
+------------------------------------------------------------------------------------------------
+                    git bash
+                    python --version
+py -m pip install fastapi uvicorn
+py -m uvicorn main:app --reload
+                    -------------------------------------------------
+                    swagger:http://127.0.0.1:8000/docs
+    
 }
